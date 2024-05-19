@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Liste des personnages Disney</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+		
+			body {
+				background-color: #f8f9fa; 
+			}
+
+			.character-card {
+				border: 1px solid #dee2e6; 
+				border-radius: 10px; 
+				background-color: #fff; 
+				transition: all 0.3s ease; 
+			}
+
+			.character-card:hover {
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+			}
+
+			.character-card img {
+				height: 200px;
+				object-fit: cover;
+				border-top-left-radius: 10px; 
+				border-top-right-radius: 10px;
+			}
+
+			.character-card .card-body {
+				padding: 1.5rem; 
+			}
+
+			.character-card h5 {
+				color: #343a40; 
+			}
+
+			.btn-details {
+				background-color: #007bff; 
+				border: none; 
+				color: #fff; 
+				transition: all 0.3s ease; 
+			}
+
+			.btn-details:hover {
+				background-color: #0056b3; 
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-header bg-dark text-white text-center">
+					<h1>Liste des personnages Disney</h1>
+				</div>
+				<div class="card-body">
+					{% if characters is defined %}
+						{% if characters.data is not empty %}
+							<div class="row row-cols-1 row-cols-md-3 g-4">
+								{% for character in characters.data %}
+									{% if character['_id'] is defined %}
+										<div class="col">
+											<div class="card h-100 character-card">
+												<img src="{{ character['imageUrl'] }}" class="card-img-top" alt="{{ character['name'] }}">
+												<div class="card-body text-center">
+													<h5 class="card-title">{{ character['name'] }}</h5>
+													<a href="{{ path('character_details', {'id': character['_id']}) }}" class="btn btn-primary btn-details mt-3">Voir plus de détails</a>
+												</div>
+											</div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						{% else %}
+							<div class="alert alert-warning text-center" role="alert">
+								Aucun personnage trouvé.
+							</div>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>
+

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Formulaire de recherche</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			.card-img-top {
+				height: 200px; 
+				object-fit: cover;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-header">
+					<h1>Rechercher un personnage dysney</h1>
+				</div>
+				<div class="card-body">
+					{{ form_start(form, {'attr': {'class': 'form-inline'}}) }}
+					<div class="form-group mx-sm-3 mb-2">
+						{{ form_row(form.search, {'attr': {'class': 'form-control', 'placeholder': 'Rechercher votre personnage dysney'}}) }}
+					</div>
+					{{ form_end(form) }}
+
+					{% if characters is defined %}
+						{% if characters is empty %}
+							<div class="alert alert-warning mt-3" role="alert">
+								Aucun personnage trouvé pour la recherche "{{ form.search.vars.value }}"
+							</div>
+						{% else %}
+							<div class="row mt-3">
+								{% for character in characters.data %}
+									<div class="col-md-3 mb-3">
+										<div class="card">
+											{% if character['imageUrl'] is defined %}
+												<img src="{{ character['imageUrl'] }}" class="card-img-top" alt="{{ character['name'] }}">
+											{% else %}
+												<div class="alert alert-danger" role="alert">
+													Image non disponible pour
+													{{ character['name'] }}
+												</div>
+											{% endif %}
+											<div class="card-body">
+												<h5 class="card-title">{{ character['name'] }}</h5>
+												<a href="{{ path('character_details', {'id': character['_id']}) }}" class="btn btn-primary btn-details mt-3">Voir plus de détails</a>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						{% endif %}
+					{% endif %}
+
+					{% if allCharacters is defined %}
+						<div class="row mt-3">
+							{% for character in allCharacters.data %}
+								<div class="col-md-3 mb-3">
+									<div class="card">
+										{% if character['imageUrl'] is defined %}
+											<img src="{{ character['imageUrl'] }}" class="card-img-top" alt="{{ character['name'] }}">
+										{% else %}
+											<div class="alert alert-danger" role="alert">
+												Image non disponible pour
+												{{ character['name'] }}
+											</div>
+										{% endif %}
+										<div class="card-body">
+											<h5 class="card-title">{{ character['name'] }}</h5>
+											<a href="{{ path('character_details', {'id': character['_id']}) }}" class="btn btn-primary btn-details mt-3">Voir plus de détails</a>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>
+
